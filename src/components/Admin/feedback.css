@@ -1,0 +1,375 @@
+.feedback-container {
+  margin-bottom: 20px;
+}
+
+.form-select,
+input[type="text"],
+textarea {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.feedback-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.feedback-list li {
+  margin-bottom: 10px;
+}
+
+.custom-textbox {
+  width: 300px;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.custom-textbox:focus {
+  border-color: dodgerblue;
+}
+
+.inspection-note-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.note-textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.save-note-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-note-button:hover {
+  background-color: #0056b3;
+}
+
+.filter-view {
+  margin-top: 20px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.filter-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* feedback.css */
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Increased gap for better spacing */
+  padding: 20px; /* Added padding for overall list spacing */
+  background-color: #f1f1f1; /* Light background color for better contrast */
+}
+
+.note {
+  padding: 15px; /* Increased padding for better readability */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Slightly increased border radius for a softer look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added shadow for a card-like effect */
+  transition: transform 0.2s, box-shadow 0.2s; /* Added transition for hover effect */
+}
+
+.note:hover {
+  transform: translateY(-3px); /* Slight lift on hover for better interaction */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.note p {
+  margin: 0;
+  line-height: 1.5; /* Improved line-height for better readability */
+  color: #333; /* Darker text color for better contrast */
+}
+
+.note .note-content {
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+}
+
+/* Colorful background variants */
+.note:nth-child(odd) {
+  background-color: #ffebcd; /* BlanchedAlmond */
+  border-left: 4px solid #ffa07a; /* LightSalmon */
+}
+
+.note:nth-child(even) {
+  background-color: #e6e6fa; /* Lavender */
+  border-left: 4px solid #9370db; /* MediumPurple */
+}
+
+.note:nth-child(3n) {
+  background-color: #f0fff0; /* Honeydew */
+  border-left: 4px solid #98fb98; /* PaleGreen */
+}
+
+.note .note-date {
+  margin-top: 10px; /* Added margin to separate date from content */
+  font-style: italic;
+  color: #777;
+  font-size: 14px; /* Slightly smaller font size for the date */
+}
+
+.note .note-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555; /* Slightly lighter color for the header */
+}
+
+.feedback-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-select,
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --primary-active-color: #004085;
+  --primary-focus-color: #0056b3;
+  --text-color: #fff;
+  --spacing: 10px;
+  --margin: 20px 0;
+  --border-radius: 5px;
+  --transition-time: 0.3s;
+}
+
+/* App.css */
+
+.date-filters {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-filters .form-select {
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.date-filters .form-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.date-filters button:active {
+  background-color: var(--primary-active-color);
+  transform: scale(0.98);
+}
+
+.date-filters button:focus-visible {
+  outline: 2px solid var(--primary-focus-color);
+  outline-offset: 2px;
+}
+
+.date-filters button:disabled {
+  background-color: #cccccc; /* Accessible color for disabled state */
+  cursor: not-allowed;
+  opacity: 0.6; /* Visual indication for disabled state */
+}
+
+@media (max-width: 600px) {
+  .date-filters button {
+    padding: 6px 12px; /* Further reduced padding */
+    font-size: 0.875rem; /* Adjusted font size */
+  }
+}
+.color-palette {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.color-button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.color-button:focus {
+  outline: 2px solid #000;
+}
+
+/* newly added css */
+
+.notes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.note-item {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.note-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.note-item p {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.note-item strong {
+  color: #555;
+}
+
+.note-item .note-content {
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+}
+
+/* Different background colors for each note */
+.note-item:nth-child(odd) {
+  background-color: #e0f2f1; /* Light Blue */
+}
+
+.note-item:nth-child(even) {
+  background-color: #ffebee; /* Light Red */
+}
+
+.note-item:nth-child(3n) {
+  background-color: #f3e5f5; /* Light Purple */
+}
+.delete-note-icon {
+  cursor: pointer;
+  color: red;
+  font-size: 20px;
+}
+.note-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px; /* Optional: for spacing */
+}
+
+.note-username {
+  flex: 1; /* This makes the username align to the left */
+  text-align: left;
+}
+
+.note-content {
+  flex: 1; /* This centers the note content */
+  text-align: center;
+}
+
+.note-noteid {
+  flex: 1; /* This makes the noteid align to the right */
+  text-align: right;
+}
+.edit-note-icon {
+  cursor: pointer;
+  color: rgb(78, 8, 241); /* Change color as desired */
+  font-size: 20px; /* Adjust size as desired */
+}

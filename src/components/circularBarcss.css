@@ -1,0 +1,50 @@
+@keyframes circular-progress {
+  from {
+    --percentage: 0;
+  }
+  to {
+    --percentage: var(--value);
+  }
+}
+
+@property --circular-percentage {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.circular-progress-bar[role="progressbar"] {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  animation: circular-progress 1s forwards;
+}
+
+.circular-progress-bar .progress-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--primary) calc(var(--value) * 1%),
+    var(--secondary) 0
+  );
+  mask: radial-gradient(white 55%, transparent 0);
+  mask-mode: alpha;
+  -webkit-mask: radial-gradient(#0000 55%, #000 0);
+  -webkit-mask-mode: alpha;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.circular-progress-bar[role="progressbar"]::after {
+  content: attr(aria-valuenow) "%";
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 3);
+  color: var(--primary);
+  font-weight: bold;
+  position: absolute;
+  z-index: 1;
+}

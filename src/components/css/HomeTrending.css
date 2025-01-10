@@ -1,0 +1,52 @@
+.trending {
+  border-radius: 10px;
+  transition: font-size 0.2s ease; /* Transition for hover out */
+  transition: font-size 0.2s ease; /* Transition for hover out */
+  height: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dns:hover {
+  background-color: rgba(169, 209, 250, 0.5);
+  transition: background-color 0.3s ease;
+  color: rgb(31, 142, 253);
+  font-size: 17px;
+  transition: font-size 0.2s ease; /* Transition for hover out */
+}
+.question:hover {
+  background-color: rgba(221, 146, 139, 0.5);
+  transition: background-color 0.3s ease;
+  color: rgb(158, 13, 0);
+  font-size: 17px;
+  transition: font-size 0.2s ease; /* Transition for hover out */
+}
+.my-idea:hover {
+  background-color: rgba(146, 218, 150, 0.5);
+  transition: background-color 0.3s ease;
+  color: rgb(14, 124, 0);
+  font-size: 17px;
+  transition: font-size 0.2s ease; /* Transition for hover out */
+}
+.leader-board:hover {
+  background-color: rgba(242, 191, 100, 0.5);
+  transition: background-color 0.3s ease;
+  color: rgb(129, 82, 2);
+  font-size: 17px;
+  transition: font-size 0.2s ease; /* Transition for hover out */
+}
+.icon-dns:hover,
+.icon-leader-board:hover,
+.icon-question:hover,
+.icon-my-idea:hover {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.icon-dns:hover,
+.icon-question:hover,
+.icon-my-idea:hover,
+.icon-leader-board:hover {
+  transition: font-size 0.2s ease;
+}

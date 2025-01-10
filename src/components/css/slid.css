@@ -1,0 +1,59 @@
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  width: 100%; /* Use the full width of the parent div */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.slider-button {
+  background-color: rgba(190, 219, 249, 0.5);
+  border: 1px solid #ccc;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+
+  margin: 0 px;
+  width: 25px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prev {
+  border-radius: 0 20px 20px 0;
+}
+.next {
+  border-radius: 20px 0 0 20px;
+}
+.slider {
+  overflow: hidden;
+  width: calc(100% - 5%); /* Adjust width, accounting for button margins */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.slider-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slider-item {
+  /* /* flex: 0 0 auto; */
+  margin: 0 5px;
+  background-color: #fff;
+  /* border: 1px solid #ddd; */
+  /* border-radius: 3px;
+  padding: 10px 20px; */
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-item:hover {
+  background-color: #e0e0e0;
+}

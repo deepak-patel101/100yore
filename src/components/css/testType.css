@@ -1,0 +1,25 @@
+.tab-for-test-type {
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.content-for-test-type {
+  transition: max-height 0.5s ease, opacity 0.5s ease; /* Smooth transition for showing/hiding content */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+}
+
+.content-for-test-type.show {
+  max-height: 500px; /*Adjust this value as needed */
+  opacity: 1;
+}
+
+.content-for-test-type.hide {
+  max-height: 0;
+  opacity: 0;
+}

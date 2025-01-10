@@ -1,0 +1,21 @@
+.bird-sprite {
+  width: 50px; /* Reduced width for the frame */
+  height: 50px; /* Reduced height for the frame */
+  background-image: url("../img/birds.png"); /* Path to the sprite sheet */
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  display: inline-block;
+
+  /* Scale down the background-size to fit the smaller div */
+  background-size: calc(50px * 8) auto; /* Total width scaled down proportionally */
+  animation: play 0.7s steps(8) infinite; /* 8 steps for 8 frames */
+}
+
+@keyframes play {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: calc(-50px * 8) 0; /* Adjust background shift for 60px frame width */
+  }
+}

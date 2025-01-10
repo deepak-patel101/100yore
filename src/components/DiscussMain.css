@@ -1,0 +1,75 @@
+/* Mobile Menu */
+.overlay-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none; /* Initially hidden */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out; /* Fade in/out transition */
+}
+
+.overlay-menu.open {
+  display: block;
+  opacity: 1;
+}
+
+.menu-content {
+  background-color: white;
+  width: 250px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -250px; /* Initially off-screen */
+  padding: 1rem;
+  overflow-y: auto;
+  transition: left 1s ease-in-out; /* Slide in/out transition */
+}
+
+.overlay-menu.open .menu-content {
+  left: 0; /* Slide to the left */
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: black;
+}
+
+/* News Overlay */
+.overlay-news {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none; /* Initially hidden */
+  opacity: 0;
+  transition: opacity 1s ease-in-out; /* Fade in/out transition */
+}
+
+.overlay-news.open {
+  display: block;
+  opacity: 1;
+}
+
+.news-content {
+  background-color: white;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -300px; /* Initially off-screen */
+  padding: 1rem;
+  overflow-y: auto;
+  transition: right 0.3s ease-in-out; /* Slide in/out transition */
+}
+
+.overlay-news.open .news-content {
+  right: 0; /* Slide to the right */
+}

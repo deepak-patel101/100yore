@@ -1,0 +1,20 @@
+.carousel-indicators li::before {
+  content: none;
+}
+.backBtn:hover {
+  background-color: black;
+  color: white;
+}
+.backBtn {
+  background-color: black;
+}
+.btn-outline-custom {
+  color: #ecf000; /* Text color */
+  background-color: transparent;
+  border-color: #fde931; /* Border color */
+}
+.btn-outline-custom:hover {
+  color: #000000; /* Hover text color */
+  background-color: #fcf834; /* Hover background color */
+  border-color: #fcff31; /* Hover border color */
+}

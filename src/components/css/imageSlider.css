@@ -1,0 +1,7 @@
+.carousel-indicators li::marker {
+  content: none;
+}
+
+.carousel-indicators li {
+  list-style: none;
+}

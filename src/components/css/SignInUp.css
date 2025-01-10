@@ -1,0 +1,87 @@
+.content-wrapper {
+  border: 1px solid #ccc;
+  overflow: hidden;
+  position: relative;
+}
+
+.sign-in,
+.sign-up {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: flex 0.5s ease;
+  cursor: pointer;
+}
+
+.sign-in {
+  background-color: #f8f9fa;
+}
+
+.sign-up {
+  background-color: #e9ecef;
+}
+
+.sign-in.active {
+  flex: 0 0 60%;
+}
+
+.sign-up.active {
+  flex: 0 0 60%;
+}
+
+.sign-in:not(.active) {
+  flex: 0 0 40%;
+}
+
+.sign-up:not(.active) {
+  flex: 0 0 40%;
+}
+
+.toggleButton {
+  display: none; /* Default to hidden */
+}
+
+@media (max-width: 500px) {
+  .sign-in,
+  .sign-up {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: flex 0.5s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .sign-in {
+    background-color: #f8f9fa;
+  }
+
+  .sign-up {
+    background-color: #e9ecef;
+  }
+
+  .sign-in.active {
+    flex: 0 0 100%;
+  }
+
+  .sign-up.active {
+    flex: 0 0 100%;
+  }
+
+  .sign-in:not(.active) {
+    flex: 0 0 0%;
+  }
+
+  .sign-up:not(.active) {
+    flex: 0 0 0%;
+  }
+
+  .toggleButton {
+    display: block; /* Show the toggleButton on smaller screens */
+    width: 100%;
+    text-align: center;
+    padding: 10px 0; /* Adjust padding as needed */
+  }
+}

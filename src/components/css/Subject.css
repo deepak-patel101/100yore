@@ -1,0 +1,132 @@
+.Subject {
+  box-shadow: 5px 5px 10px rgba(52, 80, 142, 0.2);
+  transition: font-size 0.3s ease; /* Transition for hover out */
+  /* boxShadow= 5px 5px 10px rgba(52,80,142, 0.3)", */
+}
+.Subject:hover {
+  box-shadow: 5px 5px 10px rgba(169, 209, 250, 0.3);
+  transition: font-size 0.3s ease; /* Transition for hover out */
+}
+.Subject2 {
+  box-shadow: 0px 5px 10px rgba(52, 80, 142, 0.2);
+  transition: font-size 0.3s ease; /* Transition for hover out */
+  /* boxShadow= 5px 5px 10px rgba(52,80,142, 0.3)", */
+}
+.Subject2:hover {
+  box-shadow: 0px 5px 10px rgba(169, 209, 250, 0.3);
+  transition: font-size 0.3s ease; /* Transition for hover out */
+}
+.underline {
+  position: relative;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.underline::after {
+  content: "";
+  position: absolute;
+  border-radius: 10px;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  transition: width 0.3s ease;
+}
+
+.underline:hover::after,
+.parent:hover .underline::after {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+  transform: rotate(90deg); /* Initial rotation */
+}
+
+.parent:hover .arrow {
+  transform: rotate(0deg); /* Rotate back to 0 degrees on parent hover */
+}
+.papaDiv {
+  box-shadow: 5px 5px 10px rgba(52, 80, 142, 0.3);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+/* Custom scrollbar for Webkit-based browsers */
+.scrollspy-example-2::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollspy-example-2::-webkit-scrollbar-thumb {
+  background: #a0a4a8; /* Customize the color */
+  border-radius: 2px;
+}
+
+.scrollspy-example-2::-webkit-scrollbar-thumb:hover {
+  background: #a0a4a8; /* Customize the hover color */
+}
+
+.scrollspy-example-2::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Customize the track color */
+  border-radius: 2px;
+}
+
+/* Custom scrollbar for Firefox */
+.scrollspy-example-2 {
+  scrollbar-width: thin;
+  border-radius: 3px;
+  scrollbar-color: #80a4c9 #f1f1f1;
+}
+
+/* ///////////////////////////youtube ///////////////////// */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* //////////////////////////// */
+.collapseDis {
+  height: 0;
+  overflow: hidden;
+  transition: height 1s ease, opacity 1s ease;
+}
+
+.collapseDis.show {
+  height: auto;
+  transition: height 1s ease, opacity 1s ease;
+}
+/* /////////////////////////////////////////////////////////////// */
+.center {
+  /* height: 70vh; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* //////////////////////////////////////////////////////////////// */
+.Div-transition {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 0;
+}
+
+.Div-transition.show {
+  max-height: 500px; /* Adjust as necessary */
+  /* transition: max-height 0.5s ease-out, opacity 0.5s ease-out; */
+  opacity: 1;
+}

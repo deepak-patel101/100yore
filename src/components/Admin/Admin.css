@@ -1,0 +1,23 @@
+@media (max-width: 400px) {
+  .topDiv {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .topicBTN {
+    font-size: 9px !important;
+  }
+  .topicData {
+    font-size: 10px !important;
+  }
+  .topicData h1,
+  .topicData h2,
+  .topicData h3,
+  .topicData h4,
+  .topicData h5,
+  .topicData h6 {
+    font-size: 11px !important;
+  }
+  .topicHead {
+    font-size: 12px !important;
+  }
+}

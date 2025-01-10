@@ -1,0 +1,77 @@
+.cards .card {
+  /* position: relative; */
+  /* margin: 20px; */
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  transform-origin: center top;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition: 0.3s;
+}
+
+.cards .card img {
+  width: 100%;
+  min-height: 100%;
+}
+
+.cards .card figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* padding: 20px; */
+  padding-bottom: 10px;
+  font-size: 20px;
+  background: none;
+
+  transform: translateY(100%);
+  transition: 0.3s;
+}
+
+.cards .card:after {
+  position: absolute;
+  content: "";
+  z-index: 10;
+  width: 200%;
+  height: 100%;
+  top: -90%;
+  left: -20px;
+  opacity: 0.1;
+  transform: rotate(45deg);
+  background: linear-gradient(
+    to top,
+    transparent,
+    #fff 15%,
+    rgba(255, 255, 255, 0.5)
+  );
+  transition: 0.3s;
+}
+
+.cards .card:hover,
+.cards .card:focus,
+.cards .card:active {
+  box-shadow: 0 8px 16px 3px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) scale(1.05) rotateX(15deg);
+}
+
+.cards:hover b {
+  /* Add your desired styles here */
+  transform: translateY(3px) scale(1.05) rotateX(15deg);
+  display: none;
+  color: blue;
+}
+.cards .card:hover figcaption,
+.cards .card:focus figcaption,
+.cards .card:active figcaption {
+  transform: none;
+}
+
+.cards .card:hover:after,
+.cards .card:focus:after,
+.cards .card:active:after {
+  transform: rotate(25deg);
+  top: -40%;
+  opacity: 0.15;
+}
