@@ -39,11 +39,21 @@ export const TestProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `https://railwaymcq.com/railwaymcq/100YoRE/mcq_Api.php?topicCode=${
+        `https://railwaymcq.com/railwaymcq/100YoRE/mcq_Api2.php?topicCode=${
           subject?.selectedTopicCode
         }&subjectcode=${subject?.subjectCode}&user_id=${
           user?.id
-        }&search_keyword=%20${SearchKeyWord ? SearchKeyWord : ""}`
+        }&search_keyword=%20${SearchKeyWord ? SearchKeyWord : ""}&zone_id=${
+          user?.zone_id
+        }&division_id=${user?.division_id}&depot_id=${user?.depot_id}&post=${
+          user?.post
+        }`
+
+        // `https://railwaymcq.com/railwaymcq/100YoRE/mcq_Api.php?topicCode=${
+        //   subject?.selectedTopicCode
+        // }&subjectcode=${subject?.subjectCode}&user_id=${
+        //   user?.id
+        // }&search_keyword=%20${SearchKeyWord ? SearchKeyWord : ""}`
       );
 
       if (!response.ok) {

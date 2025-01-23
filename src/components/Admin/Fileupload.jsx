@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import * as XLSX from "xlsx";
 import { useGlobalContext } from "../../Context/GlobalContextOne";
 import { FaFileUpload } from "react-icons/fa";
@@ -9,6 +10,9 @@ import ExcelExample from "../../img/excelExample.jpg";
 import { MdNearbyError } from "react-icons/md";
 import UniPop from "../UniPop";
 import Loading from "../Loading";
+import { useInitialContext } from "../../Context/InitialContext";
+import { Form } from "react-router-dom";
+import ZoneDivisionDepotSelector from "./zoneAndDivision";
 
 const FileUpload = () => {
   const { departments, fetchMastInfo } = useGlobalContext();
@@ -18,8 +22,12 @@ const FileUpload = () => {
   const [selectedSubcode, setSubcode] = useState(""); // renamed from subcode
   const [releaseDate, setReleaseDate] = useState(""); // renamed from subcode
   const [releaseTime, setReleaseTime] = useState("");
-
+  const [selectedZones, setSelectedZones] = useState([]);
+  const [selectedDivisions, setSelectedDivisions] = useState([]);
+  const [selectedDepots, setSelectedDepots] = useState([]);
+  const [accessRightsForUp, setAccessRightsForUp] = useState([]);
   const [department, setDepartment] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [topcode, setTopcode] = useState("");
   const [depttCode, setDepttCode] = useState("");
   const [viewExample, setViewExample] = useState(false);
@@ -35,6 +43,12 @@ const FileUpload = () => {
 
   const [excelMsg, setExcelMsg] = useState(false);
   const [fileTypeCheck, setFileTypeCheck] = useState(false);
+  const [zoneAndDivision, setZoneAndDivision] = useState(null);
+
+  const [designation, setDesignation] = useState(null);
+  const [desig, setDesig] = useState(null);
+  const [emptyDepot, setEmptyDepot] = useState([]);
+
   const fileInputRef = useRef(null); // Create a ref for the file input
   useEffect(() => {
     if (department) {
@@ -76,6 +90,7 @@ const FileUpload = () => {
     // Proceed with setting the file state
     setFile(selectedFile);
   };
+
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     // Optional: Add validation or formatting logic here
@@ -84,6 +99,7 @@ const FileUpload = () => {
   const handleTimeChange = (e) => {
     setReleaseTime(e.target.value);
   };
+
   const handleFileUpload = () => {
     // Validate the file type before processing
     if (
@@ -105,7 +121,7 @@ const FileUpload = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-      const sanitizedData = jsonData.map((row) => {
+      const sanitizedData = jsonData?.map((row) => {
         Object.keys(row).forEach((key) => {
           if (typeof row[key] === "string") {
             // Remove extra backslashes before single and double quotes specifically
@@ -130,12 +146,15 @@ const FileUpload = () => {
 
       // Include the additional input data
       const payload = {
+        departCode: depttCode,
         selectedSubcode,
         topcode,
         queFrom,
         releaseDate,
         releaseTime,
         data: sanitizedData,
+        Access_Rights: accessRightsForUp,
+        post: selectedOptions,
       };
 
       if (hasAllKeys) {
@@ -160,6 +179,7 @@ const FileUpload = () => {
               setFile(null);
               setResultData(data);
               setShowResult(true);
+              setEmptyDepot([]);
               if (fileInputRef.current) {
                 fileInputRef.current.value = null;
                 fetchMastInfo();
@@ -241,6 +261,13 @@ const FileUpload = () => {
   useEffect(() => {
     setQueFrom("");
   }, [topcode]);
+  // useEffect(() => {
+  //   Object.entries(departments)?.map(([key, departmentVal]) => {
+  //     if (departmentVal?.deptt === department) {
+  //       setDepttCode(departmentVal?.depttcode);
+  //     }
+  //   });
+  // }, [department]);
 
   useEffect(() => {
     // Ensure you're working with up-to-date state values.
@@ -268,6 +295,68 @@ const FileUpload = () => {
       return newCount;
     });
   }, [department, selectedSubcode, topcode]);
+  // /////////////////////////////////////////////////////////////
+
+  const fetchZoneAndDepot = async () => {
+    const desg_flag = true;
+
+    try {
+      const response = await fetch(
+        `https://railwaymcq.com/railwaymcq/100YoRE/zone_division_api_WITH_ID.php`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setZoneAndDivision(data);
+    } catch (error) {
+      console.error("Error fetching DESG_MASTER info:", error);
+    }
+  };
+  const fetchDESGMaster = async () => {
+    const desg_flag = true;
+
+    try {
+      const response = await fetch(
+        `https://railwaymcq.com/sms/gp_level.php?desg_flag=${desg_flag}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setDesig(data);
+    } catch (error) {
+      console.error("Error fetching DESG_MASTER info:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDESGMaster();
+    fetchZoneAndDepot();
+  }, []);
+  useEffect(() => {
+    if (desig) {
+      // const uniqueCategories = [...new Set(desig?.map((d) => d.category))];
+      const uniqueDesignations = desig?.map((d) => d.desg_name);
+
+      setDesignation(uniqueDesignations);
+    }
+  }, [desig]);
+
+  const handleOptionChange = (option) => {
+    setSelectedOptions(
+      (prev) =>
+        prev.includes(option)
+          ? prev.filter((item) => item !== option) // Remove option if already selected
+          : [...prev, option] // Add option if not selected
+    );
+  };
+  const handleSelectAll = () => {
+    if (selectedOptions?.length === designation?.length) {
+      setSelectedOptions([]); // Deselect all if all are selected
+    } else {
+      setSelectedOptions(designation); // Select all options
+    }
+  };
 
   // /////////////////////////////////////////////////////////
   return (
@@ -367,6 +456,28 @@ const FileUpload = () => {
           </h5>
           <hr />
         </div>
+        <div className="row">
+          <ZoneDivisionDepotSelector
+            zoneAndDivision={zoneAndDivision}
+            setAccessRightsForUp={setAccessRightsForUp}
+            setEmptyDepot={setEmptyDepot}
+          />
+          {emptyDepot.length > 0 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              you have not selected any depots for {emptyDepot.join(",")}
+            </p>
+          ) : null}
+
+          <div
+            className="col-md-3"
+            style={{ maxHeight: "250px", overflowY: "auto" }}
+          ></div>
+          <div className="col-md-3"></div>
+        </div>
+        <div className="row">
+          <div className="d-flex flex-row align-items-center"></div>
+        </div>
         <div className="row ">
           <div className="col col-12 mb-2 col-md-3 mb-1">
             <div
@@ -395,6 +506,7 @@ const FileUpload = () => {
               value={department}
               onChange={(e) => {
                 const selectedDepartment = departments[e.target.value];
+
                 setDepartment(e.target.value);
                 if (selectedDepartment) {
                   setCount({
@@ -477,7 +589,7 @@ const FileUpload = () => {
                       ([, a], [, b]) => a.total_questions - b.total_questions
                     );
 
-                    return sortedSubjects.map(([subcode, subjects], index) => (
+                    return sortedSubjects?.map(([subcode, subjects], index) => (
                       <option
                         key={subcode}
                         value={subcode}
@@ -537,7 +649,7 @@ const FileUpload = () => {
             >
               <option value="">Select Topic</option>
               {selectedSubcode &&
-                Object.entries(departments).map(([key, departmentVal]) => {
+                Object.entries(departments)?.map(([key, departmentVal]) => {
                   if (
                     departmentVal?.deptt === department &&
                     selectedSubcode !== "" &&
@@ -546,7 +658,7 @@ const FileUpload = () => {
                     if (departmentVal?.subjects[selectedSubcode]?.topics) {
                       return Object.entries(
                         departmentVal?.subjects[selectedSubcode]?.topics
-                      ).map(([topcodeVal, topic], ind) => (
+                      )?.map(([topcodeVal, topic], ind) => (
                         <option
                           key={topcodeVal}
                           value={topic.topcode}
@@ -623,131 +735,194 @@ const FileUpload = () => {
             </select>
           </div>
         </div>
-        <div className="row justify-content-center align-items-center ">
-          <div className="col col-md-3">
-            <p
-              style={{ margin: "0px", padding: "0px" }}
-              className="d-flex text-start"
-            >
-              Select release date and time
-              <p style={{ color: "red", margin: "0px", padding: "0px" }}> *</p>
-            </p>
-            <div className="input-group Subject">
-              <input
-                className="form-control"
-                type="date"
-                value={releaseDate}
-                onChange={handleDateChange}
-                style={{
-                  height: "40px",
-                  paddingBottom: "0px",
-                  marginBottom: "0px",
-                }}
-              />
-              <input
-                className="form-control"
-                type="time"
-                value={releaseTime}
-                onChange={handleTimeChange}
-                style={{
-                  height: "40px",
-                  paddingBottom: "0px",
-                  marginBottom: "0px",
-                  marginLeft: "5px",
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="col col-md-9">
-            <p
-              style={{ margin: "0px", padding: "0px" }}
-              className="d-flex text-start"
-            >
+        <div className="">
+          <div className="row  ">
+            <div className="col-md-3 ">
               {" "}
-              Select excel file
-              <p style={{ color: "red", margin: "0px", padding: "0px" }}> *</p>
-            </p>
-
-            <div className=" input-group Subject">
-              <input
-                className="form-control"
-                type="file"
-                accept=".xls,.xlsx"
-                onChange={handleFileChange}
-                ref={fileInputRef} // Assign ref to the file input
-                style={{
-                  height: "40px",
-                  paddingBottom: "0px",
-                  marginBottom: "0px",
-                }}
-              />
-
-              <button
-                style={{
-                  height: "40px",
-                  paddingBottom: "0px",
-                  marginBottom: "0px",
-                }}
-                className={`btn btn-sm  ${
-                  selectedSubcode !== "" && file && topcode !== ""
-                    ? "btn-success"
-                    : "btn-danger disabled"
-                }`}
-                onClick={handleFileUpload}
-              >
-                Upload
-              </button>
+              {/* Division Dropdown */}
+              <h6 className="m-1" style={{ whiteSpace: "nowrap" }}>
+                Designation
+              </h6>
+              <div className="multi-select-dropdown">
+                <button
+                  className={`btn btn-outline-${
+                    selectedOptions.length === 0 ? "danger" : "success"
+                  } dropdown-toggle`}
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {selectedOptions?.length > 0
+                    ? `${selectedOptions?.length} selected`
+                    : "Select Designations"}
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <div className="dropdown-item">
+                      <input
+                        type="checkbox"
+                        checked={
+                          selectedOptions?.length === designation?.length
+                        }
+                        onChange={handleSelectAll}
+                      />
+                      <label className="ms-2">Select All</label>
+                    </div>
+                  </li>
+                  {designation &&
+                    designation.map((desigN, index) =>
+                      desigN === null ? null : (
+                        <li key={index} className="dropdown-item">
+                          <input
+                            type="checkbox"
+                            checked={selectedOptions.includes(desigN)}
+                            onChange={() => handleOptionChange(desigN)}
+                          />
+                          <label className="ms-2">{desigN}</label>
+                        </li>
+                      )
+                    )}
+                </ul>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-2">
-            {excelMsg ? (
-              <div style={{ color: "red" }}>
-                {" "}
-                <MdNearbyError /> Excel file`s columns name didn`t match
-              </div>
-            ) : null}{" "}
-            {fileTypeCheck ? (
-              <div style={{ color: "red" }}>
-                {" "}
-                <MdNearbyError /> Please select a valid Excel file.
-              </div>
-            ) : null}
-            <u
-              className="m-1"
-              style={{ cursor: "pointer", color: "#2FB44D" }}
-              onClick={handleSampleFile}
-            >
-              <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> Click
-              here for sample Excel file (note: now Difficulty in not
-              mandatory,,default value = 1 )
-            </u>
-            {loading ? (
-              <div className=" d-flex justify-content-center">
-                <div>
-                  <div className=" d-flex ">
+            <div className="col col-md-3">
+              <div>
+                <p
+                  style={{ margin: "0px", padding: "0px" }}
+                  className="d-flex text-start"
+                >
+                  Select release date and time
+                  <p style={{ color: "red", margin: "0px", padding: "0px" }}>
                     {" "}
-                    <FaUpload className="" />{" "}
-                    <b className="">&nbsp; Uploading</b>
-                  </div>
-                  <div
-                    style={{ width: "200px" }}
-                    className="row progress"
-                    role="progressbar"
-                    aria-label="Animated striped example"
-                    aria-valuenow="100%"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    <div
-                      className="progress-bar progress-bar-striped progress-bar-animated"
-                      style={{ width: "100%" }}
-                    ></div>
-                  </div>
+                    *
+                  </p>
+                </p>
+                <div className="input-group Subject">
+                  <input
+                    className="form-control"
+                    type="date"
+                    value={releaseDate}
+                    onChange={handleDateChange}
+                    style={{
+                      height: "40px",
+                      paddingBottom: "0px",
+                      marginBottom: "0px",
+                    }}
+                  />
+                  <input
+                    className="form-control"
+                    type="time"
+                    value={releaseTime}
+                    onChange={handleTimeChange}
+                    style={{
+                      height: "40px",
+                      paddingBottom: "0px",
+                      marginBottom: "0px",
+                      marginLeft: "5px",
+                    }}
+                  />
                 </div>
               </div>
-            ) : null}
+            </div>
+
+            <div className="col col-md-6">
+              <p
+                style={{ margin: "0px", padding: "0px" }}
+                className="d-flex text-start"
+              >
+                {" "}
+                Select excel file
+                <p style={{ color: "red", margin: "0px", padding: "0px" }}>
+                  {" "}
+                  *
+                </p>
+              </p>
+
+              <div className=" input-group Subject">
+                <input
+                  className="form-control"
+                  type="file"
+                  accept=".xls,.xlsx"
+                  onChange={handleFileChange}
+                  ref={fileInputRef} // Assign ref to the file input
+                  style={{
+                    height: "40px",
+                    paddingBottom: "0px",
+                    marginBottom: "0px",
+                  }}
+                />
+
+                <button
+                  style={{
+                    height: "40px",
+                    paddingBottom: "0px",
+                    marginBottom: "0px",
+                  }}
+                  className={`btn btn-sm  ${
+                    selectedSubcode !== "" &&
+                    file &&
+                    topcode !== "" &&
+                    emptyDepot.length === 0 &&
+                    selectedOptions.length > 0 &&
+                    accessRightsForUp
+                      ? "btn-success"
+                      : "btn-danger disabled"
+                  }`}
+                  onClick={handleFileUpload}
+                >
+                  Upload
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-2">
+              {excelMsg ? (
+                <div style={{ color: "red" }}>
+                  {" "}
+                  <MdNearbyError /> Excel file`s columns name didn`t match
+                </div>
+              ) : null}{" "}
+              {fileTypeCheck ? (
+                <div style={{ color: "red" }}>
+                  {" "}
+                  <MdNearbyError /> Please select a valid Excel file.
+                </div>
+              ) : null}
+              <u
+                className="m-1"
+                style={{ cursor: "pointer", color: "#2FB44D" }}
+                onClick={handleSampleFile}
+              >
+                <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> Click
+                here for sample Excel file (note: now Difficulty in not
+                mandatory,,default value = 1 )
+              </u>
+              {loading ? (
+                <div className=" d-flex justify-content-center">
+                  <div>
+                    <div className=" d-flex ">
+                      {" "}
+                      <FaUpload className="" />{" "}
+                      <b className="">&nbsp; Uploading</b>
+                    </div>
+                    <div
+                      style={{ width: "200px" }}
+                      className="row progress"
+                      role="progressbar"
+                      aria-label="Animated striped example"
+                      aria-valuenow="100%"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <div
+                        className="progress-bar progress-bar-striped progress-bar-animated"
+                        style={{ width: "100%" }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

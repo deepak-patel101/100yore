@@ -50,6 +50,7 @@ import OnGoingTest from "./components/OnGoingTest/OnGoingTest";
 const App = () => {
   const { test_ongoing_data } = useTestContext();
   const { user, updateUserData } = useContext(UserContext);
+
   const { activePage, selected, setSearchKeyWords, SearchKeyWord } =
     useGlobalContext();
   const [message, setMessage] = useState(false);
@@ -64,7 +65,7 @@ const App = () => {
   }, [token]);
   useEffect(() => {
     const apiUrl =
-      "https://railwaymcq.com/railwaymcq/RailPariksha/user_login_api.php";
+      "https://railwaymcq.com/railwaymcq/100YoRE/user_login_api.php";
 
     const handleLogin = async () => {
       if (!saveToken) {

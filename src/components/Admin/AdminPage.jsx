@@ -31,8 +31,6 @@ const AdminPage = () => {
     handleDatabaseCount();
   }, []);
 
-  console.error(databaseCount);
-
   if (user?.login_type === "admin") {
     return (
       <div className="container papaDiv ">

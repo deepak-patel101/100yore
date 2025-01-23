@@ -25,7 +25,7 @@ const Login = () => {
     setMsg(null);
     try {
       const response = await fetch(
-        "https://railwaymcq.com/railwaymcq/RailPariksha/user_login_api.php",
+        "https://railwaymcq.com/railwaymcq/100YoRE/user_login_api.php",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -35,7 +35,6 @@ const Login = () => {
 
       const textResponse = await response.text();
       const data = JSON.parse(textResponse);
-
       if (data.success) {
         if (data.user && data.token) {
           updateUserData(data.user);
