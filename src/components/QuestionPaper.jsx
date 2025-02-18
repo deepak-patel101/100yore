@@ -36,6 +36,8 @@ const QuestionPaper = () => {
   const [activeNo, setActiveNo] = useState(1);
   const navigate = useNavigate();
 
+  console.log(questionData);
+
   const updateTheUserTestRecordTopicWise = async () => {
     setLoading(true); // Set loading state to true before making the API call
 
@@ -420,7 +422,12 @@ const QuestionPaper = () => {
             <div className="d-flex">
               <h6>{activeNo ? activeNo : "-"}</h6>
               <h6>- </h6>
-              <div>{questionData?.question}</div>
+              <div>
+                {/* {questionData?.question} */}
+                <div
+                  dangerouslySetInnerHTML={{ __html: questionData?.question }}
+                />
+              </div>
             </div>
             <div
               // style={{ paddingBottom: "50px" }}

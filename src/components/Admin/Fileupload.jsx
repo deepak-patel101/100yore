@@ -101,7 +101,6 @@ const FileUpload = () => {
   };
 
   const handleFileUpload = () => {
-    // Validate the file type before processing
     if (
       ![
         "application/vnd.ms-excel",
@@ -121,11 +120,15 @@ const FileUpload = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
       const sanitizedData = jsonData?.map((row) => {
         Object.keys(row).forEach((key) => {
           if (typeof row[key] === "string") {
-            // Remove extra backslashes before single and double quotes specifically
-            row[key] = row[key].replace(/\\(['"])/g, "$1");
+            // Convert line breaks to <br> for rendering
+            row[key] = row[key]
+              .replace(/\r\n|\n|\r/g, "<br>") // Replace line breaks
+              .replace(/\\"/g, '"') // Handle escaped double quotes
+              .replace(/""/g, '"');
           }
         });
         return row;
@@ -138,13 +141,10 @@ const FileUpload = () => {
         "Option3",
         "Option4",
         "Answer",
-        // "Reference",
-        // "Difficulty",
       ]; // Example array of keys to check
 
       const hasAllKeys = keysArray.every((key) => key in jsonData[0]);
 
-      // Include the additional input data
       const payload = {
         departCode: depttCode,
         selectedSubcode,
@@ -159,9 +159,8 @@ const FileUpload = () => {
 
       if (hasAllKeys) {
         setExcelMsg(false);
-        let payloadStr = JSON.stringify(payload).replace(/\\'/g, "'");
+        const payloadStr = JSON.stringify(payload);
 
-        // Send data to the backend with the cleaned JSON string
         fetch(
           "https://railwaymcq.com/railwaymcq/100YoRE/InsertMCQfromExcel.php",
           {
@@ -199,7 +198,6 @@ const FileUpload = () => {
     };
     reader.readAsArrayBuffer(file);
   };
-
   const handleSampleFile = () => {
     setViewExample(true);
   };
@@ -350,14 +348,16 @@ const FileUpload = () => {
           : [...prev, option] // Add option if not selected
     );
   };
-  const handleSelectAll = () => {
+  const handleSelectAll = (all) => {
     if (selectedOptions?.length === designation?.length) {
       setSelectedOptions([]); // Deselect all if all are selected
     } else {
       setSelectedOptions(designation); // Select all options
     }
   };
-
+  const handleAll = () => {
+    setSelectedOptions([]);
+  };
   // /////////////////////////////////////////////////////////
   return (
     <div>
@@ -768,6 +768,19 @@ const FileUpload = () => {
                       />
                       <label className="ms-2">Select All</label>
                     </div>
+                    <li className="dropdown-item">
+                      <input
+                        type="checkbox"
+                        checked={selectedOptions.includes("All")}
+                        onChange={() => {
+                          handleAll();
+                          handleOptionChange("All");
+                        }}
+                      />
+                      <label className="ms-2">
+                        For All "(even not belong to this list)"
+                      </label>
+                    </li>
                   </li>
                   {designation &&
                     designation.map((desigN, index) =>

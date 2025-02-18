@@ -2,18 +2,26 @@ import React, { useEffect, useState, useTransition } from "react";
 import { useTestContext } from "../Context/TestContext";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { GiTortoise } from "react-icons/gi";
-import { FaThumbsUp, FaCheckCircle } from "react-icons/fa";
+import {
+  FaThumbsUp,
+  FaCheckCircle,
+  FaAngleDoubleUp,
+  FaAngleDoubleDown,
+} from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
 import { FaSheetPlastic } from "react-icons/fa6";
 import "./css/Subject.css";
+import QuestionFeedback from "./Feedback/QuestionFeedback";
 
 const AnswerSheet = ({ userResponse }) => {
   // const { start_Test, userResponse, countDown } = useTestContext();
   const { start_Test } = useTestContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const [giveFeedback, setGiveFeedback] = useState(false);
   const [hover, setHover] = useState(false);
+  const [idForFeedBack, setIidForFeedBack] = useState(null);
+
   const [hoverKey, setHoverKey] = useState(false);
   let divBgColor = "C4C3C3";
   const style = {
@@ -32,6 +40,10 @@ const AnswerSheet = ({ userResponse }) => {
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);
+  const handleFeedBackBtnClicked = (qcode) => {
+    setGiveFeedback(!giveFeedback);
+    setIidForFeedBack(qcode);
+  };
   return (
     <div style={style}>
       <h5>
@@ -174,10 +186,13 @@ const AnswerSheet = ({ userResponse }) => {
                     background: `linear-gradient(to bottom, white,#${divBgColor})`,
                   }}
                 >
-                  <div className="col-10">
-                    <b>
-                      Q {Number(QuestionNo) + 1} - {value.question}
-                    </b>
+                  <div className="col-10 d-flex">
+                    <div className="d-flex">
+                      Q {Number(QuestionNo) + 1} -{" "}
+                      <div
+                        dangerouslySetInnerHTML={{ __html: value?.question }}
+                      ></div>
+                    </div>
                   </div>
                   <div>
                     {value?.options.map((option, index) => {
@@ -268,6 +283,29 @@ const AnswerSheet = ({ userResponse }) => {
                         Your answer = Not Attempted
                       </div>
                     )}
+                  </div>
+
+                  {/* ////// Objection ////// */}
+                  <div>
+                    <button
+                      className="btn ms-1 me-1 btn-sm btn-outline-dark m-1"
+                      onClick={() => handleFeedBackBtnClicked(value.qcode)}
+                    >
+                      Objection
+                      {value.qcode === idForFeedBack && giveFeedback ? (
+                        <FaAngleDoubleUp />
+                      ) : (
+                        <FaAngleDoubleDown />
+                      )}
+                    </button>
+
+                    {value.qcode === idForFeedBack && giveFeedback ? (
+                      <QuestionFeedback
+                        questionData={value}
+                        giveFeedback={giveFeedback}
+                        setGiveFeedback={setGiveFeedback}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>

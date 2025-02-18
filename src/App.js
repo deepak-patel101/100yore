@@ -50,7 +50,6 @@ import OnGoingTest from "./components/OnGoingTest/OnGoingTest";
 const App = () => {
   const { test_ongoing_data } = useTestContext();
   const { user, updateUserData } = useContext(UserContext);
-
   const { activePage, selected, setSearchKeyWords, SearchKeyWord } =
     useGlobalContext();
   const [message, setMessage] = useState(false);

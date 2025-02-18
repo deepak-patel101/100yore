@@ -79,8 +79,8 @@ const Dashboard = () => {
       ) : null}
       {actBtn === "UPDATE PROFILE" ? <UpdateProfile /> : null}
       {actBtn === "DASHBOARD" ? <DashboardHome setActBtn={setActBtn} /> : null}
-      {actBtn === "CUSTOM SETS" ? <CustomSets /> : null}
-      {actBtn === "YOUR CUSTOM SETS" ? <YourCustomSets /> : null}
+      {/* {actBtn === "CUSTOM SETS" ? <CustomSets /> : null} */}
+      {/* {actBtn === "YOUR CUSTOM SETS" ? <YourCustomSets /> : null} */}
     </div>
   );
 };

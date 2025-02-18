@@ -168,6 +168,11 @@ const QuestionPaperForAdmin = () => {
       setQuestionData(start_Test?.test[Number(start_Test?.activeQuestion)]);
     }
   }, [start_Test?.activeQuestion]);
+  useEffect(() => {
+    if (!start_Test?.activeQuestion) {
+      setQuestionData(start_Test?.test[0]);
+    }
+  }, []);
 
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
@@ -629,13 +634,21 @@ const QuestionPaperForAdmin = () => {
                     />
                   </div>
                 ) : (
-                  <b className="text-start">
+                  <div className="text-start d-flex">
                     Q.
-                    {!start_Test?.activeQuestion
-                      ? "1"
-                      : Number(start_Test?.activeQuestion) + 1}{" "}
-                    - {questionData?.question}
-                  </b>
+                    {!start_Test?.activeQuestion ? (
+                      "1"
+                    ) : (
+                      <div className=" d-flex">
+                        {Number(start_Test?.activeQuestion) + 1}
+                      </div>
+                    )}
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: questionData?.question,
+                      }}
+                    />
+                  </div>
                 )}
                 <div className="d-flex justify-content-end">
                   <OverlayTrigger

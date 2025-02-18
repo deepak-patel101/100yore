@@ -10,6 +10,9 @@ const TopicSelector = ({ setDataToper }) => {
   const [depttcode, setDepttcode] = useState("");
   const [subcode, setSubcode] = useState("");
   const [topcode, setTopcode] = useState("");
+  const [allRecords, setAllRecords] = useState(null);
+  const [userUniqueDepartments, setUserUniqueDepartments] = useState(null);
+  const [selectedDepartments, setSelectedDepartments] = useState(null);
   const [setNo, setSetNo] = useState("");
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -123,6 +126,8 @@ const TopicSelector = ({ setDataToper }) => {
 
       const data = await response.json();
       setRecords(data);
+      setAllRecords(data);
+
       setLoading(false);
       setError(null);
     } catch (error) {
@@ -170,15 +175,16 @@ const TopicSelector = ({ setDataToper }) => {
         subcode: subcode, // Ensure subcode has a valid value
         set_No: setNo, // Ensure setNo has a valid value
         user_id: user ? user.id : "00", // Use user.id if user is defined, else default to "00"
+        deptt: selectedDepartments,
       };
 
       // Add optional parameters only if they are defined
       if (railway_zone) params.zone = railway_zone;
       if (railway_division) params.division = railway_division;
+      if (userUniqueDepartments) params.deptt = selectedDepartments;
       if (railway_depot) params.depot = railway_depot;
       if (selCategory) params.category = selCategory;
       if (selDesignation) params.designation = selDesignation;
-
       const response = await axios.get(
         "https://railwaymcq.com/railwaymcq/100YoRE/Top_10T.php",
         { params }
@@ -203,6 +209,7 @@ const TopicSelector = ({ setDataToper }) => {
       zone: railway_zone,
       division: railway_division,
       depot: railway_depot,
+      deptt: selectedDepartments,
     });
   }, [
     topcode,
@@ -212,11 +219,16 @@ const TopicSelector = ({ setDataToper }) => {
     railway_zone,
     railway_division,
     railway_depot,
+    selectedDepartments,
   ]);
   useEffect(() => {
     fetchFilterData();
   }, [filters, selCategory, selDesignation]);
-
+  useEffect(() => {
+    if (setNo) {
+      fetchRankData();
+    }
+  }, [setNo, depttcode]);
   const fetchDESGMaster = async () => {
     const desg_flag = true;
 
@@ -250,6 +262,14 @@ const TopicSelector = ({ setDataToper }) => {
       setDesignation(uniqueDesignations);
     }
   }, [desig, selCategory]);
+  useEffect(() => {
+    if (allRecords) {
+      const uniqueDepartments = [
+        ...new Set(allRecords[0].map((d) => d.user_data.deptt)),
+      ];
+      setUserUniqueDepartments(uniqueDepartments);
+    }
+  }, [allRecords, setNo]);
 
   return (
     <div>
@@ -339,7 +359,7 @@ const TopicSelector = ({ setDataToper }) => {
           <div className="col-md-2 ms-1 me-1">
             {" "}
             <h6 className="m-1" style={{ whiteSpace: "nowrap" }}>
-              Select zone
+              Zone
             </h6>
             <Form.Control
               className="m-1"
@@ -363,7 +383,7 @@ const TopicSelector = ({ setDataToper }) => {
             {" "}
             {/* Division Dropdown */}
             <h6 className="m-1" style={{ whiteSpace: "nowrap" }}>
-              Select division
+              Division
             </h6>
             <Form.Control
               className="m-1"
@@ -387,7 +407,7 @@ const TopicSelector = ({ setDataToper }) => {
             {" "}
             {/* Depot Dropdown */}
             <h6 className="m-1" style={{ whiteSpace: "nowrap" }}>
-              Select depot
+              Depot
             </h6>
             <Form.Control
               className="m-1"
@@ -408,6 +428,32 @@ const TopicSelector = ({ setDataToper }) => {
                       {depot.depot_name}
                     </option>
                   ))}
+            </Form.Control>
+          </div>
+          <div className="col-md-2 ms-1 me-1">
+            {" "}
+            {/* Depot Dropdown */}
+            <h6 className="m-1" style={{ whiteSpace: "nowrap" }}>
+              Department
+            </h6>
+            <Form.Control
+              className="m-1"
+              as="select"
+              value={selectedDepartments}
+              onChange={(e) => setSelectedDepartments(e.target.value)}
+              required
+            >
+              <option value="">All</option>
+              {userUniqueDepartments &&
+                userUniqueDepartments.map((department, index) => {
+                  if (department !== "Unknown") {
+                    return (
+                      <option key={index} value={department}>
+                        {department}
+                      </option>
+                    );
+                  }
+                })}
             </Form.Control>
           </div>
           <div className="col-md-2 ms-1 me-1">
@@ -534,7 +580,7 @@ const TopicSelector = ({ setDataToper }) => {
               <tr>
                 <th className="table-success">Rank</th>
                 <th className="table-success">Name</th>
-                <th className="table-success">Depot</th>
+                <th className="table-success">Department</th>
                 <th className="table-success">Designation</th>
                 <th className="table-success">Total Questions</th>
                 <th className="table-success">Question Attempted</th>
@@ -553,7 +599,7 @@ const TopicSelector = ({ setDataToper }) => {
                             {obje?.user_data?.name?.toUpperCase()}
                           </td>
                           <td className="text-center">
-                            {obje?.user_data?.depot_name?.toUpperCase()}
+                            {obje?.user_data?.deptt?.toUpperCase()}
                           </td>{" "}
                           <td className="text-center">
                             {obje?.user_data?.post}
@@ -586,9 +632,7 @@ const TopicSelector = ({ setDataToper }) => {
                     <tr key={index}>
                       <td className="text-center">{record[0]?.rank}</td>
                       <td className="text-center">{record[0]?.name}</td>
-                      <td className="text-center">
-                        {record[0]?.depot_name}
-                      </td>{" "}
+                      <td className="text-center">{record[0]?.deptt}</td>{" "}
                       <td className="text-center">{record[0]?.post}</td>
                       <td className="text-center">
                         {record[0]?.total_questions}
